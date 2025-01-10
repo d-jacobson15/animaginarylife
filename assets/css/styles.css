@@ -1,0 +1,22 @@
+/* Styles for clickable annotation text */
+.annotation {
+  color: #0066cc;
+  cursor: pointer;
+  text-decoration: underline dashed;
+}
+
+/* On hover, you might highlight the text or change color */
+.annotation:hover {
+  background-color: #ffffcc;
+}
+
+/* Styles for the annotation popup */
+.annotation-popup {
+  background-color: #fff8dc;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  max-width: 300px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  z-index: 9999;
+}
