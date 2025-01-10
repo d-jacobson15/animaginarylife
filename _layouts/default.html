@@ -5,29 +5,27 @@
     <title>{{ page.title }} - {{ site.title }}</title>
     <meta name="description" content="{{ site.description }}" />
 
-    <!-- GitHub Pages expects relative paths; this is how we include our custom stylesheet -->
+    <!-- Include your custom stylesheet -->
     <link rel="stylesheet" href="{{ '/assets/css/styles.css' | relative_url }}">
   </head>
   <body>
     <header>
       <h1>{{ site.title }}</h1>
     </header>
-    
+
     <main>
       {{ content }}
     </main>
 
-    <!-- Basic JS for popup annotations -->
+    <!-- Basic JS for hover-based popup annotations -->
     <script>
       document.addEventListener('DOMContentLoaded', function() {
-        // We look for all elements with the class .annotation
         const annotatedSpans = document.querySelectorAll('.annotation');
 
         annotatedSpans.forEach(span => {
-          span.addEventListener('click', function(event) {
-            event.stopPropagation(); // Prevent the document click handler from immediately removing the popup
-
-            // Remove any existing popup
+          // When user hovers over (mouse enters the text)
+          span.addEventListener('mouseover', function(event) {
+            // If a popup already exists, remove it so we can place a fresh one
             const existingPopup = document.querySelector('.annotation-popup');
             if (existingPopup) existingPopup.remove();
 
@@ -37,25 +35,27 @@
 
             // Get the annotation text from the data-annotation attribute
             const noteText = span.getAttribute('data-annotation');
-            popup.textContent = noteText;
+            // Use innerText for a simple text popup (or innerHTML if you want HTML formatting)
+            popup.innerText = noteText;
 
-            // Position the popup near the clicked text
-            // (basic approach: below and to the left of the annotated text)
+            // Position the popup near the hovered text
             const rect = span.getBoundingClientRect();
             popup.style.position = 'absolute';
+            // Position just below the text (adjust +5px or more for spacing)
             popup.style.top = window.scrollY + rect.bottom + 5 + 'px';
+            // Align left edges
             popup.style.left = window.scrollX + rect.left + 'px';
 
             document.body.appendChild(popup);
           });
-        });
 
-        // If user clicks anywhere outside an .annotation, remove the popup (if open)
-        document.addEventListener('click', function(e) {
-          const popup = document.querySelector('.annotation-popup');
-          if (popup && !e.target.classList.contains('annotation')) {
-            popup.remove();
-          }
+          // When user moves the mouse away
+          span.addEventListener('mouseout', function(event) {
+            const popup = document.querySelector('.annotation-popup');
+            if (popup) {
+              popup.remove();
+            }
+          });
         });
       });
     </script>
