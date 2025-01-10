@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{{ page.title }} - {{ site.title }}</title>
+    <meta name="description" content="{{ site.description }}" />
+
+    <!-- GitHub Pages expects relative paths; this is how we include our custom stylesheet -->
+    <link rel="stylesheet" href="{{ '/assets/css/styles.css' | relative_url }}">
+  </head>
+  <body>
+    <header>
+      <h1>{{ site.title }}</h1>
+    </header>
+    
+    <main>
+      {{ content }}
+    </main>
+
+    <!-- Basic JS for popup annotations -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // We look for all elements with the class .annotation
+        const annotatedSpans = document.querySelectorAll('.annotation');
+
+        annotatedSpans.forEach(span => {
+          span.addEventListener('click', function(event) {
+            event.stopPropagation(); // Prevent the document click handler from immediately removing the popup
+
+            // Remove any existing popup
+            const existingPopup = document.querySelector('.annotation-popup');
+            if (existingPopup) existingPopup.remove();
+
+            // Create a new popup
+            const popup = document.createElement('div');
+            popup.className = 'annotation-popup';
+
+            // Get the annotation text from the data-annotation attribute
+            const noteText = span.getAttribute('data-annotation');
+            popup.textContent = noteText;
+
+            // Position the popup near the clicked text
+            // (basic approach: below and to the left of the annotated text)
+            const rect = span.getBoundingClientRect();
+            popup.style.position = 'absolute';
+            popup.style.top = window.scrollY + rect.bottom + 5 + 'px';
+            popup.style.left = window.scrollX + rect.left + 'px';
+
+            document.body.appendChild(popup);
+          });
+        });
+
+        // If user clicks anywhere outside an .annotation, remove the popup (if open)
+        document.addEventListener('click', function(e) {
+          const popup = document.querySelector('.annotation-popup');
+          if (popup && !e.target.classList.contains('annotation')) {
+            popup.remove();
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
