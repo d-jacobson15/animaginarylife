@@ -1,1 +1,11 @@
+# _config.yml
+title: "My Annotated Novel"
+description: "An example of an annotated novel using Jekyll and GitHub Pages."
+theme: minima
 
+# GitHub Pages often needs these settings:
+markdown: kramdown
+highlighter: rouge
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
