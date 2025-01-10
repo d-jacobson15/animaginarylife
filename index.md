@@ -3,11 +3,8 @@ layout: default
 title: "Home"
 ---
 
-# Welcome!
+# Welcome
 
-Welcome to **My Annotated Novel**. This is a simple demo showing how to display a novel’s text
-and include annotations.
+This site demonstrates how to show **popup annotations** in a Jekyll + GitHub Pages environment.
 
-- Start reading at [Chapter 1](chapter-1.md)
-
-*(More chapters will appear here as you add them.)*
+- Read [Chapter 1](chapter-1.md)
